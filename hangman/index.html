@@ -1,0 +1,92 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+
+    <title>A Basic HTML5 Template</title>
+
+
+</head>
+
+<body>
+    <!-- your content here... -->
+    <header>
+        <p>Keine Nulleingaben, nur Grossbuchstaben</p>
+    </header>
+    <main>
+        <div id="hangmanFrame">
+            <a href="#"><img id="progressImg" src="img/0.PNG"></a>
+        </div>
+
+        <p id="hiddenWord">save me</p>
+        <br>
+        <textarea name="bob" id="guessTxa" cols="1" rows="1"></textarea>
+        <button type="button" id="submitBtn">submit</button>
+    </main>
+    <footer>
+
+    </footer>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+    var words = ["FEIERABEND", "KLOSTER", "AMPEL", "WOERTERSALAT"];
+    var stage = 0;
+    var specificWord = "";
+    var correctGuesses = "";
+    var imageNr = 0;
+
+    $(document).ready(function() {
+
+        newGame();
+    });
+
+    function newGame() {
+        $("#progressImg").attr("src", "img/0.PNG");
+        correctGuesses = "";
+        specificWord = words[Math.floor(Math.random() * 4)];
+
+        for (let i = 0; i < specificWord.length; i++) {
+            correctGuesses = correctGuesses + "?"
+        }
+
+        $('#hiddenWord').text(correctGuesses);
+    };
+
+
+    $("#submitBtn").click(function() {
+
+        console.log("hier");
+        var guessChar = $("#guessTxa").val();
+        var i = 0;
+
+
+        while (specificWord.indexOf(guessChar) > -1) {
+            var pos = specificWord.indexOf($("#guessTxa").val());
+
+
+            let guessesString = correctGuesses.split("");
+            guessesString[pos] = guessChar;
+            correctGuesses = guessesString.join("");
+
+            let specificArray = specificWord.split("");
+            specificArray[pos] = "?";
+            specificWord = specificArray.join("");
+
+            $('#hiddenWord').text(correctGuesses);
+
+            i++;
+        }
+        if (i < 1) {
+            imageNr++;
+            $("#progressImg").attr("src", "img/" + imageNr + ".PNG");
+        }
+
+    });
+</script>
+
+</html>
